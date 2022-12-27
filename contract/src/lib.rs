@@ -65,7 +65,7 @@ mod tests {
     use rand::Rng;
 
     #[test]
-    pub fn init() {
+    pub fn can_claim_ok() {
         let mut items: Vec<(AccountId, u128)> = Vec::new();
 
         for i in 0..6 {
@@ -78,13 +78,41 @@ mod tests {
             items_as_vec.push(item.try_to_vec().unwrap());
         }
 
-        let mut merkle_tree = MerkleTree::create(&items_as_vec, None);
+        let merkle_tree = MerkleTree::create(&items_as_vec, None);
 
         let airdrop_contract = AirdropContract::new(merkle_tree.root_hash);
 
-        println!(
-            "{}",
-            airdrop_contract.can_claim(items[0].0.clone(), items[0].1, merkle_tree.get_proof(0))
-        );
+        for i in 0..items.len() {
+            assert!(airdrop_contract.can_claim(
+                items[i].0.clone(),
+                items[i].1,
+                merkle_tree.get_proof(i)
+            ));
+        }
+    }
+
+    #[test]
+    pub fn can_claim_wrong_proof() {
+        let mut items: Vec<(AccountId, u128)> = Vec::new();
+
+        for i in 0..6 {
+            items.push((accounts(i), rand::thread_rng().gen_range(1..ONE_NEAR)));
+        }
+
+        let mut items_as_vec: Vec<Vec<u8>> = Vec::new();
+
+        for item in &items {
+            items_as_vec.push(item.try_to_vec().unwrap());
+        }
+
+        let merkle_tree = MerkleTree::create(&items_as_vec, None);
+
+        let airdrop_contract = AirdropContract::new(merkle_tree.root_hash);
+
+        assert!(!airdrop_contract.can_claim(
+            items[0].0.clone(),
+            items[0].1,
+            merkle_tree.get_proof(1)
+        ))
     }
 }
