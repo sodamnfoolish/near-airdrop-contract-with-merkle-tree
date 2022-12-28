@@ -91,6 +91,33 @@ mod tests {
     }
 
     #[test]
+    pub fn can_claim_wrong_amount() {
+        let mut items: Vec<(AccountId, u128)> = Vec::new();
+
+        for i in 0..6 {
+            items.push((accounts(i), ONE_NEAR));
+        }
+
+        let mut items_as_vec: Vec<Vec<u8>> = Vec::new();
+
+        for item in &items {
+            items_as_vec.push(item.try_to_vec().unwrap());
+        }
+
+        let merkle_tree = MerkleTree::create(&items_as_vec, None);
+
+        let airdrop_contract = AirdropContract::new(merkle_tree.root_hash);
+
+        for i in 0..items.len() {
+            assert!(!airdrop_contract.can_claim(
+                items[i].0.clone(),
+                items[i].1 / 2,
+                merkle_tree.get_proof(i)
+            ));
+        }
+    }
+
+    #[test]
     pub fn can_claim_wrong_proof() {
         let mut items: Vec<(AccountId, u128)> = Vec::new();
 
