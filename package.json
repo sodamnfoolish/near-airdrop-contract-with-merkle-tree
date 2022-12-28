@@ -8,8 +8,7 @@
     "build:contract": "cd contract && ./build.sh",
     "test": "npm run test:unit && npm run test:integration",
     "test:unit": "cd contract && cargo test",
-    "test:integration": "cd integration-tests && cargo run --example integration-tests \"../contract/target/wasm32-unknown-unknown/release/near_airdrop_contract_with_merkle_tree.wasm\"",
-    "postinstall": "echo no frontend && echo rs tests && echo rs contract"
+    "test:integration": "cd integration-tests && cargo run --example integration-tests \"../contract/target/wasm32-unknown-unknown/release/near_airdrop_contract_with_merkle_tree.wasm\""
   },
   "devDependencies": {
     "near-cli": "^3.3.0"
