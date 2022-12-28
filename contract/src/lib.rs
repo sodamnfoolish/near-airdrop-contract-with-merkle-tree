@@ -62,14 +62,13 @@ mod tests {
     use airdrop_merkle_tree_near_rs::MerkleTree;
     use near_sdk::test_utils::accounts;
     use near_sdk::{AccountId, ONE_NEAR};
-    use rand::Rng;
 
     #[test]
     pub fn can_claim_ok() {
         let mut items: Vec<(AccountId, u128)> = Vec::new();
 
         for i in 0..6 {
-            items.push((accounts(i), rand::thread_rng().gen_range(1..ONE_NEAR)));
+            items.push((accounts(i), ONE_NEAR));
         }
 
         let mut items_as_vec: Vec<Vec<u8>> = Vec::new();
@@ -96,7 +95,7 @@ mod tests {
         let mut items: Vec<(AccountId, u128)> = Vec::new();
 
         for i in 0..6 {
-            items.push((accounts(i), rand::thread_rng().gen_range(1..ONE_NEAR)));
+            items.push((accounts(i), ONE_NEAR));
         }
 
         let mut items_as_vec: Vec<Vec<u8>> = Vec::new();
@@ -113,6 +112,6 @@ mod tests {
             items[0].0.clone(),
             items[0].1,
             merkle_tree.get_proof(1)
-        ))
+        ));
     }
 }

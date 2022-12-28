@@ -629,7 +629,6 @@ version = "1.0.0"
 dependencies = [
  "airdrop-merkle-tree-near-rs",
  "near-sdk",
- "rand 0.8.5",
  "uint",
 ]
 

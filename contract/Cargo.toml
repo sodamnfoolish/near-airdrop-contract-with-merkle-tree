@@ -9,7 +9,6 @@ crate-type = ["cdylib"]
 
 [dependencies]
 near-sdk = "4.0.0"
-rand = "0.8.5"
 uint = { version = "0.9.3", default-features = false }
 airdrop-merkle-tree-near-rs = "0.1.3"
 
